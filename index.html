@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Google Clone — Responsive</title>
+  <style>
+    /* Basic reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;display:flex;flex-direction:column;color:#202124}
+
+    /* Top nav */
+    header{display:flex;justify-content:flex-end;padding:12px 24px}
+    .top-links{display:flex;gap:12px;align-items:center}
+    .top-links a{color:#5f6368;text-decoration:none;font-size:14px;padding:8px;border-radius:4px}
+    .top-links a:hover{background:rgba(60,64,67,0.08)}
+    .icon-btn{width:40px;height:40px;display:inline-grid;place-items:center;border-radius:50%;cursor:pointer}
+    .icon-btn:hover{background:rgba(60,64,67,0.08)}
+
+    /* Main center */
+    main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+    .logo{font-size:92px;font-weight:700;letter-spacing:2px;margin-bottom:24px;user-select:none}
+    /* colored letters similar style (not the Google logo image) */
+    .logo .g{color:#4285F4}
+    .logo .o1{color:#DB4437}
+    .logo .o2{color:#F4B400}
+    .logo .g2{color:#4285F4}
+    .logo .l{color:#0F9D58}
+    .logo .e{color:#DB4437}
+
+    .search-box{width:100%;max-width:582px;background:#fff;border:1px solid #dfe1e5;border-radius:24px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(32,33,36,0.28)}
+    .search-box:focus-within{box-shadow:0 3px 12px rgba(66,133,244,0.2);border-color:rgba(66,133,244,0.4)}
+    .search-icon{width:24px;height:24px;opacity:.6}
+    input.search{flex:1;border:0;outline:0;font-size:18px;padding:8px}
+    .mic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+
+    .buttons{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+    .btn{background:#F8F9FA;border:1px solid #f1f3f4;padding:10px 16px;border-radius:4px;font-size:14px;cursor:pointer}
+    .btn:hover{box-shadow:0 1px 1px rgba(0,0,0,0.1)}
+
+    /* Suggestions dropdown */
+    .suggestions{position:absolute;margin-top:6px;width:100%;max-width:582px;background:#fff;border:1px solid #dfe1e5;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);overflow:hidden}
+    .suggestion{padding:10px 14px;display:flex;gap:10px;align-items:center;color:#202124;cursor:pointer}
+    .suggestion:hover,.suggestion.active{background:#f1f3f4}
+    .suggestion .small{color:#5f6368;font-size:13px}
+
+    /* Footer */
+    footer{border-top:1px solid #e4e4e4;padding:16px 24px;background:#fff}
+    .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-left,.footer-right{display:flex;gap:12px;align-items:center}
+    .lang{color:#5f6368}
+
+    /* Responsive adjustments */
+    @media (max-width:600px){
+      .logo{font-size:56px}
+      header{padding:8px}
+      .search-box{max-width:92%;border-radius:999px}
+      .buttons{flex-direction:column}
+      .btn{width:100%;max-width:320px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="top-links" aria-label="Top navigation">
+      <a href="#">Gmail</a>
+      <a href="#">Images</a>
+      <div class="icon-btn" title="Google apps" aria-hidden="true">◻︎</div>
+      <div class="icon-btn" title="Account">A</div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Logo - typed colored letters, not the official logo image -->
+    <div class="logo" aria-hidden="true">
+      <span class="g">G</span><span class="o1">o</span><span class="o2">o</span><span class="g2">g</span><span class="l">l</span><span class="e">e</span>
+    </div>
+
+    <!-- Search form -->
+    <form id="searchForm" class="search-form" role="search" action="https://www.google.com/search" method="GET">
+      <div style="position:relative">
+        <div class="search-box" id="searchBox">
+          <svg class="search-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+            <path fill="#5f6368" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM10 15a5 5 0 110-10 5 5 0 010 10z"/>
+          </svg>
+
+          <input id="q" class="search" name="q" type="search" autocomplete="off" placeholder="Search" aria-label="Search input">
+
+          <button type="button" id="micBtn" class="mic" title="Voice search" aria-label="Voice search">🎤</button>
+        </div>
+
+        <div id="suggestions" class="suggestions" style="display:none" role="listbox" aria-label="Search suggestions"></div>
+      </div>
+
+      <div class="buttons" role="group" aria-label="Search buttons">
+        <button class="btn" type="submit">Google Search</button>
+        <button class="btn" id="lucky" type="button">I'm Feeling Lucky</button>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-row">
+      <div class="footer-left"><div class="lang">India</div><div class="lang">Hindi</div></div>
+      <div class="footer-right"><div class="lang">Advertising</div><div class="lang">Business</div><div class="lang">About</div></div>
+    </div>
+  </footer>
+
+  <script>
+    // Small client-side enhancements: suggestions, keyboard navigation, voice search and button actions
+    (function(){
+      const suggestions = [
+        'weather today', 'news', 'translate', 'youtube', 'facebook', 'github',
+        'java tutorial', 'how to make pizza', 'nearest coffee shop', 'cricket score', 'python', 'reactjs'
+      ];
+
+      const q = document.getElementById('q');
+      const suggBox = document.getElementById('suggestions');
+      let filtered = [];
+      let activeIndex = -1;
+
+      function renderSuggestions(){
+        if(!q.value.trim()){suggBox.style.display='none';return}
+        const val = q.value.toLowerCase();
+        filtered = suggestions.filter(s=>s.includes(val)).slice(0,6);
+        if(filtered.length===0){suggBox.style.display='none';return}
+        suggBox.innerHTML = filtered.map((s,i)=>`<div class="suggestion" data-index="${i}" role="option">🔎 <div><div>${s}</div><div class="small">Search for "${s}"</div></div></div>`).join('');
+        suggBox.style.display='block';
+        activeIndex = -1;
+      }
+
+      q.addEventListener('input',renderSuggestions);
+      q.addEventListener('keydown', (e)=>{
+        const items = suggBox.querySelectorAll('.suggestion');
+        if(e.key==='ArrowDown'){
+          e.preventDefault(); activeIndex = Math.min(activeIndex+1, items.length-1); updateActive();
+        } else if(e.key==='ArrowUp'){
+          e.preventDefault(); activeIndex = Math.max(activeIndex-1, 0); updateActive();
+        } else if(e.key==='Enter'){
+          if(suggBox.style.display==='block' && activeIndex>-1){
+            e.preventDefault(); choose(filtered[activeIndex]);
+          }
+        }
+      });
+
+      suggBox.addEventListener('click', (e)=>{
+        const item = e.target.closest('.suggestion');
+        if(!item) return;
+        const idx = parseInt(item.dataset.index,10);
+        choose(filtered[idx]);
+      });
+
+      function updateActive(){
+        const items = suggBox.querySelectorAll('.suggestion');
+        items.forEach((it,i)=>it.classList.toggle('active', i===activeIndex));
+        if(activeIndex>-1 && items[activeIndex]){
+          // put value in input (visual only)
+          q.value = filtered[activeIndex];
+        }
+      }
+
+      function choose(text){
+        q.value = text;
+        suggBox.style.display='none';
+        document.getElementById('searchForm').submit();
+      }
+
+      // Clicking outside closes suggestions
+      document.addEventListener('click', (e)=>{
+        if(!e.target.closest('#searchBox')){
+          suggBox.style.display='none';
+        }
+      });
+
+      // I'm Feeling Lucky -> use Google 'I' button param
+      document.getElementById('lucky').addEventListener('click', ()=>{
+        const val = q.value.trim();
+        const url = 'https://www.google.com/search?btnI=1&q=' + encodeURIComponent(val||'');
+        window.location.href = url;
+      });
+
+      // Voice search using Web Speech API (if available)
+      const mic = document.getElementById('micBtn');
+      let recognition;
+      if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-IN';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.addEventListener('result', (e)=>{
+          const text = e.results[0][0].transcript;
+          q.value = text;
+          document.getElementById('searchForm').submit();
+        });
+
+        recognition.addEventListener('error', (e)=>{
+          console.warn('Voice error', e);
+        });
+      } else {
+        mic.title = 'Voice not supported';
+      }
+
+      mic.addEventListener('click', ()=>{
+        if(!recognition) return alert('Voice search not supported in this browser.');
+        try{ recognition.start(); } catch(e){ console.warn(e); }
+      });
+
+      // Accessibility: focus styles for keyboard users
+      document.addEventListener('keydown', (e)=>{
+        if(e.key==='/' && document.activeElement !== q){ e.preventDefault(); q.focus(); }
+      });
+
+      // Submit handler: if user presses search, go to Google search
+      document.getElementById('searchForm').addEventListener('submit', function(e){
+        // form is normal GET to google.com so no need to preventDefault
+      });
+
+    })();
+  </script>
+</body>
+</html>
